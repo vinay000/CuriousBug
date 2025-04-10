@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React Course - Self-Learning Program</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            background-color: #FFFFFF;
+            /* White background for body */
+            color: #010101;
+            /* Dark text */
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #A2C739;
+            /* Darker green */
+            color: #010101;
+            /* Black */
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .course-details,
+        .assignments,
+        .topics,
+        .resources {
+            margin: 20px 0;
+        }
+
+        .course-details p,
+        .assignments p,
+        .topics li,
+        .resources li {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #010101;
+            /* Dark text for better readability */
+        }
+
+        .mentor-info,
+        .resources {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .assignment,
+        .topics li,
+        .resources li {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .topics li {
+            color: #010101;
+            /* Dark text */
+            margin: 10px 0;
+        }
+
+        .topics li:hover {
+            background-color: transparent;
+            /* Remove hover color on topics */
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tick-box {
+            float: right;
+            margin-left: 10px;
+        }
+
+        .tick-box input {
+            appearance: none;
+            -webkit-appearance: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #A2C739;
+            /* Darker green circular border */
+            transition: background-color 0.3s, border 0.3s;
+        }
+
+        .tick-box input:checked {
+            background-color: #A2C739;
+            /* Darker green check mark background */
+            border-color: #A2C739;
+        }
+
+        .link {
+            color: #A2C739;
+            /* Darker green link color */
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        /* Light Theme */
+        body.light {
+            background-color: #FFFFFF;
+            /* White background */
+            color: #010101;
+        }
+
+        .mentor-info.light,
+        .resources.light {
+            background-color: #fff;
+            color: #010101;
+        }
+
+        .assignment.light,
+        .topics li.light {
+            background-color: transparent;
+        }
+
+        .link.light {
+            color: #A2C739;
+        }
+
+        /* Dark Theme */
+        body.dark {
+            background-color: #010101;
+            /* Black background */
+            color: #F7F1E7;
+            /* Off-white text */
+        }
+
+        header.dark {
+            background-color: #A2C739;
+            /* Darker green */
+        }
+
+        .mentor-info.dark,
+        .resources.dark {
+            background-color: #333;
+            color: #F7F1E7;
+        }
+
+        .assignment.dark,
+        .topics li.dark {
+            background-color: transparent;
+            color: #F7F1E7;
+        }
+
+        .tick-box.dark {
+            accent-color: #F7F1E7;
+        }
+
+        .link.dark {
+            color: #F7F1E7;
+        }
+    </style>
+</head>
+
+<body class="light">
+
+    <header class="light">
+        <h1>React Self-Learning Course</h1>
+    </header>
+
+    <div class="container">
+        <section class="course-details">
+            <h2>Course Details</h2>
+            <p>This course is designed to help you learn React in a structured self-paced manner. You'll get to work on
+                assignments, participate in peer learning, and have regular assessments with mentors.</p>
+            <p><strong>Mentor:</strong> John Doe</p>
+            <div class="mentor-info">
+                <p>Connect with your mentor:</p>
+                <ul>
+                    <li><a href="https://www.linkedin.com/in/johndoe" class="link" target="_blank">LinkedIn</a></li>
+                    <li><a href="https://twitter.com/johndoe" class="link" target="_blank">Twitter</a></li>
+                    <li><a href="https://github.com/johndoe" class="link" target="_blank">GitHub</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="topics">
+            <h2>Topics and Subtopics</h2>
+            <ul class="topic-list" id="topics-list"></ul>
+        </section>
+
+        <section class="assignments">
+            <h2>Assignments</h2>
+            <div id="assignments-list"></div>
+        </section>
+
+        <section class="resources">
+            <h3>Free Learning Resources</h3>
+            <ul>
+                <li><a href="https://reactjs.org/docs/getting-started.html" class="link" target="_blank">React Official
+                        Documentation</a></li>
+                <li><a href="https://www.freecodecamp.org/news/learn-react-by-building-a-tic-tac-toe-app/" class="link"
+                        target="_blank">FreeCodeCamp React Tutorial</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        // Topics and Subtopics Array
+        const topics = [
+            {
+                title: 'Week 1: Basic Concepts',
+                subtopics: [
+                    'What is React?',
+                    'Why React? Its advantages and limitations over other frameworks',
+                    'Generating a React Project',
+                    'JavaScript module systems',
+                    'Understanding JSX',
+                    'Understanding style components',
+                    'Rendering Elements and components'
+                ]
+            },
+            {
+                title: 'Week 2: Functional and Class Components',
+                subtopics: [
+                    'Functional component vs Class component',
+                    'React props system',
+                    'Passing multiple props',
+                    'Handling Async operations with functional component',
+                    'Life cycle methods in Class Components',
+                    'How to take care of CC life cycles with FC',
+                    'Reusable components',
+                    'Forms',
+                    'Lists and Keys'
+                ]
+            },
+            {
+                title: 'Week 3: React Hooks',
+                subtopics: [
+                    'What are React Hooks?',
+                    'Using the State Hook',
+                    'Using the Effect Hook',
+                    'Rules of using Hooks',
+                    'useMemo, useCallBack',
+                    'Use Context',
+                    'Using a Custom Hook',
+                    'Extracting a Custom Hook',
+                    'Pass Information Between Hooks',
+                    'Handling Events',
+                    'Conditional Rendering'
+                ]
+            },
+            {
+                title: 'Week 4: React Router and API Requests',
+                subtopics: [
+                    'Introduction to React Router',
+                    'How React router works?',
+                    'How paths get matched?',
+                    'Links inside routers',
+                    'API requests with React',
+                    'Handling request with Async Await',
+                    'Binding callbacks'
+                ]
+            },
+            {
+                title: 'Week 5: Redux and Unit Testing',
+                subtopics: [
+                    'Introduction to Redux',
+                    'Integrating React with Redux',
+                    'Introduction to React unit testing',
+                    'Jest testing framework',
+                    'Testing Asynchronous code',
+                    'Mocking Function'
+                ]
+            }
+        ];
+
+        // Assignments Array
+        const assignments = [
+            {
+                title: 'Assignment 1: Week 1',
+                description: 'Create a simple React app to display a list of items using functional components.'
+            },
+            {
+                title: 'Assignment 2: Week 2',
+                description: 'Build a React app with both Class and Functional components that handle user inputs.'
+            },
+            {
+                title: 'Assignment 3: Week 3',
+                description: 'Implement React Hooks like useState, useEffect in a simple to-do app.'
+            },
+            {
+                title: 'Assignment 4: Week 4',
+                description: 'Use React Router and Async/Await to make a weather app that fetches data from an API.'
+            },
+            {
+                title: 'Assignment 5: Week 5',
+                description: 'Write unit tests for your React components using Jest and mock functions.'
+            }
+        ];
+
+        // Function to Render Topics
+        function renderTopics() {
+            const topicsList = document.getElementById('topics-list');
+            topicsList.innerHTML = '';
+            topics.forEach(topic => {
+                const topicItem = document.createElement('li');
+                topicItem.innerHTML = `<strong>${topic.title}</strong>
+                    <ul>${topic.subtopics.map(subtopic =>
+                    `<li><span>${subtopic}</span>
+                        <div class="tick-box"><input type="checkbox"></div></li>`
+                ).join('')}</ul>`;
+                topicsList.appendChild(topicItem);
+            });
+        }
+
+        // Function to Render Assignments
+        function renderAssignments() {
+            const assignmentsList = document.getElementById('assignments-list');
+            assignmentsList.innerHTML = '';
+            assignments.forEach(assignment => {
+                const assignmentItem = document.createElement('div');
+                assignmentItem.classList.add('assignment');
+                assignmentItem.innerHTML = `<h3>${assignment.title}</h3><p>${assignment.description}</p>
+                    <label><input type="checkbox" class="tick-box"> Assignment Completed</label>`;
+                assignmentsList.appendChild(assignmentItem);
+            });
+        }
+
+        // Run Functions to Render Topics and Assignments
+        renderTopics();
+        renderAssignments();
+    </script>
+
+</body>
+
+</html>
